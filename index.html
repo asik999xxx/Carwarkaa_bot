@@ -5,50 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Автоспин</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="photos.js"></script>
 <style>
-:root{--bg:#e8ecef;--card:#fff;--ink:#14181d;--mute:#6a7480;--line:#d3d9de;--acc:#e8442a}
-@media(prefers-color-scheme:dark){:root{--bg:#12151a;--card:#1c2128;--ink:#eef1f4;--mute:#8d97a3;--line:#2c333c}}
+:root{--bg:#0b0d12;--card:#151922;--ink:#f1f3f7;--mute:#8791a1;--line:#252b37;--acc:#ff4d2e}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--ink);font:15px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 0 80px}
-header{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 16px;display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line)}
-header b{font-size:22px;font-variant-numeric:tabular-nums}
-header span{color:var(--mute);font-size:13px}
-main{padding:14px 16px;max-width:560px;margin:auto}
-nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
-nav button{flex:1;padding:14px 0;border:0;background:none;color:var(--mute);font:600 14px inherit;font-family:inherit}
-nav button.on{color:var(--acc);box-shadow:inset 0 3px var(--acc)}
-.btn{display:block;width:100%;padding:15px;border:0;border-radius:10px;background:var(--acc);color:#fff;font:700 16px inherit;font-family:inherit}
-.btn:disabled{opacity:.4}
-.btn.alt{background:var(--ink);color:var(--bg)}
-.btn.sm{width:auto;display:inline-block;padding:9px 14px;font-size:14px}
-.car{background:var(--card);border-radius:12px;overflow:hidden;margin-bottom:14px;border:2px solid var(--line)}
-.car .ph{position:relative;aspect-ratio:8/5;background:#9aa4ad}
-.car img{width:100%;height:100%;object-fit:cover;display:block}
-.car .tag{position:absolute;left:10px;top:10px;padding:4px 10px;border-radius:6px;color:#fff;font-weight:700;font-size:13px}
-.car .in{padding:12px 14px}
-.car h3{font-size:18px}
-.meta{color:var(--mute);font-size:13px;margin:3px 0 10px;display:flex;flex-wrap:wrap;gap:4px 12px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+body{background:radial-gradient(900px 400px at 50% -100px,#1d2433,var(--bg));background-attachment:fixed;color:var(--ink);font:14px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;padding-top:env(safe-area-inset-top)}
+header{position:sticky;top:0;z-index:5;background:#0b0d12e8;backdrop-filter:blur(10px);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
+header span{color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+header b{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;color:#7dffb0}
+#cnt{text-align:right;font-size:12px;text-transform:none;letter-spacing:0}
+main{padding:12px 14px 170px;max-width:560px;margin:auto}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#10131a;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:6}
+nav button{flex:1;height:54px;border:0;background:none;color:var(--mute);font:700 13px inherit;font-family:inherit;letter-spacing:.04em;text-transform:uppercase}
+nav button.on{color:#fff;box-shadow:inset 0 -3px var(--acc)}
+#bar{position:fixed;left:0;right:0;bottom:calc(54px + env(safe-area-inset-bottom));z-index:6;display:none;gap:8px;padding:10px 12px;background:linear-gradient(transparent,#0b0d12 35%);max-width:560px;margin:auto}
+#bar.on{display:grid;grid-template-columns:1fr 1fr 1.25fr}
+.sp{border:0;border-radius:14px;padding:11px 6px;color:#fff;font:800 13px inherit;font-family:inherit;display:flex;flex-direction:column;gap:2px;align-items:center;box-shadow:0 6px 18px #0008}
+.sp small{font-weight:600;opacity:.85;font-size:12px}
+.sp:active{transform:scale(.96)}.sp:disabled{opacity:.35}
+.sp.cheap{background:#3b4558}.sp.mid{background:linear-gradient(135deg,#2a6ad8,#5a3fd1)}.sp.vip{background:linear-gradient(135deg,#ffb52e,#ff4d2e)}
+.btn{display:block;width:100%;padding:13px;border:0;border-radius:12px;background:var(--acc);color:#fff;font:700 15px inherit;font-family:inherit}
+.btn.alt{background:#232a38}.btn.sm{width:auto;padding:8px 13px;font-size:13px}
+.btn:disabled{opacity:.35}
+.car{background:var(--card);border-radius:16px;overflow:hidden;border:1.5px solid var(--c,#252b37);box-shadow:0 0 26px -6px var(--c,transparent)}
+.ph{position:relative;background:#222a38;aspect-ratio:4/3;overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.hero .ph{aspect-ratio:auto;height:calc(100dvh - 400px);min-height:200px;max-height:380px}
+.ph:after{content:"";position:absolute;inset:auto 0 0 0;height:55%;background:linear-gradient(transparent,#000d)}
+.tag{position:absolute;left:10px;top:10px;z-index:2;padding:4px 10px;border-radius:7px;color:#fff;font-weight:800;font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:var(--c)}
+.cap{position:absolute;left:12px;right:12px;bottom:10px;z-index:2}
+.cap h3{font-size:19px;font-weight:800;text-shadow:0 2px 8px #000}
+.meta{color:#d3d9e2;font-size:12px;display:flex;flex-wrap:wrap;gap:2px 10px;margin-top:3px}
+.sw{display:inline-block;width:10px;height:10px;border-radius:50%;border:1px solid #fff8;vertical-align:-1px;margin-right:4px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px}
 .price{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
-.sw{display:inline-block;width:11px;height:11px;border-radius:50%;border:1px solid var(--line);vertical-align:-1px;margin-right:4px}
-h2{font-size:18px;margin:4px 0 12px}
-.hint{color:var(--mute);font-size:13px;margin:10px 0}
-.reveal{animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
-@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
-.spinning{height:260px;display:grid;place-items:center;font-size:56px;animation:sh .25s infinite}
-@keyframes sh{50%{transform:translateX(8px) rotate(3deg)}}
+.strip{display:flex;gap:8px;margin-top:10px;overflow-x:auto}
+.strip img{width:62px;height:46px;border-radius:9px;object-fit:cover;border:2px solid var(--c);flex:none;opacity:.8}
+.strip img.cur{opacity:1}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g .cap h3{font-size:14px}.g .meta{font-size:10.5px;gap:0 7px}
+.g .price{font-size:16px}.g .row{padding:8px 9px}
+h2{font-size:18px;margin:2px 0 10px}
+.hint{color:var(--mute);margin:10px 0;text-align:center}
+.reveal{animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:none;opacity:1}}
+.spinning{height:calc(100dvh - 400px);min-height:200px;max-height:380px;display:grid;place-items:center;font-size:64px;border-radius:16px;background:var(--card);border:1.5px dashed var(--line);animation:sh .3s infinite}
+@keyframes sh{50%{transform:translateX(6px) rotate(2deg)}}
 @media(prefers-reduced-motion:reduce){.reveal,.spinning{animation:none}}
+
+nav button{font-size:11px;letter-spacing:.02em}
+#bar.on.c4{grid-template-columns:repeat(4,1fr)}
+.sp.shal{background:linear-gradient(135deg,#2f8f5b,#1d6b4a)}
+.plate{container-type:inline-size;aspect-ratio:4.7/1;display:flex;background:linear-gradient(#fff,#e4e8ec);border:.9cqw solid #111;border-radius:2.2cqw;color:#111;overflow:hidden;box-shadow:inset 0 0 0 .7cqw #fff,0 3px 10px #0007;font-family:"DIN Alternate","Arial Narrow","Roboto Condensed",Arial,sans-serif}
+.pl-kz{width:13%;background:linear-gradient(#0b57c9,#083a8c);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1cqw;color:#fff;font-weight:800}
+.pl-kz i{width:6.2cqw;height:6.2cqw;border-radius:50%;background:radial-gradient(circle,#ffc61e 30%,#00afca 32%);border:.4cqw solid #fff8}
+.pl-kz b{font-size:5.2cqw;letter-spacing:.1em}
+.pl-num{flex:1;display:flex;align-items:center;justify-content:center;gap:3cqw;font-weight:800;font-size:19cqw;letter-spacing:.03em;text-shadow:0 .4cqw 0 #fff,0 -.2cqw 0 #0003;padding-top:1cqw}
+.pl-reg{width:20%;border-left:.7cqw solid #111;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15cqw;padding-top:1cqw;text-shadow:0 .4cqw 0 #fff}
+.plcard{background:var(--card);border-radius:16px;border:1.5px solid var(--c);box-shadow:0 0 26px -6px var(--c);padding:14px 12px 0;margin-bottom:12px}
+.plcard .row{padding:10px 0}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.chips span{font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;background:#232a38;color:#d3d9e2}
+.rg{font-size:12px;color:var(--mute)}
+.jack{margin-top:10px;padding:10px;border-radius:12px;text-align:center;font-weight:900;background:linear-gradient(90deg,#ffb52e,#ff3b5c);color:#fff}
+.plg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.plg .plcard{margin:0;padding:10px 9px 0}.plg .price{font-size:15px}.plg .chips{display:none}
+.plg .btn.sm{padding:7px 11px;font-size:12px}
 </style>
 </head>
 <body>
 <header><div><span>Баланс</span><br><b id="bal"></b></div><span id="cnt"></span></header>
 <main id="main"></main>
-<nav><button data-t="spin">Спин</button><button data-t="garage">Гараж</button><button data-t="market">Рынок</button></nav>
+<div id="bar"></div>
+<nav><button data-t="spin">Спин</button><button data-t="garage">Гараж</button><button data-t="market">Рынок</button><button data-t="plates">Номера</button><button data-t="me">Профиль</button></nav>
 <script>
 const tg=window.Telegram&&Telegram.WebApp;if(tg){tg.ready();tg.expand()}
 const hap=t=>{try{tg.HapticFeedback.impactOccurred(t||'light')}catch(e){}};
 // brand|model|base price $|tier (1 простая, 2 средняя, 3 топ)
-const RAW=`Toyota|Corolla|9000|1;Toyota|Camry|14000|1;Toyota|RAV4|18000|1;Toyota|Land Cruiser 300|60000|3;Toyota|Supra|45000|3;Lexus|IS 250|16000|2;Lexus|RX 350|28000|2;Lexus|LX 600|110000|3;Lexus|LC 500|90000|3;BMW|3 Series|20000|2;BMW|X5|35000|2;BMW|M3|65000|3;BMW|M5|95000|3;BMW|i8|70000|3;Mercedes-Benz|C-Class|22000|2;Mercedes-Benz|E-Class|30000|2;Mercedes-Benz|G-Class|140000|3;Mercedes-Benz|AMG GT|130000|3;Audi|A4|18000|2;Audi|A6|26000|2;Audi|Q7|38000|2;Audi|RS6|110000|3;Audi|R8|150000|3;Volkswagen|Golf|10000|1;Volkswagen|Passat|12000|1;Volkswagen|Tiguan|17000|1;Honda|Civic|10000|1;Honda|Accord|13000|1;Honda|CR-V|16000|1;Nissan|Qashqai|11000|1;Nissan|Skyline GT-R|120000|3;Mazda|Mazda3|10000|1;Mazda|CX-5|17000|1;Mazda|MX-5|22000|2;Ford|Focus|7000|1;Ford|Mustang|40000|3;Hyundai|Solaris|6000|1;Hyundai|Tucson|16000|1;Kia|Rio|6500|1;Kia|Sportage|16000|1;Kia|Stinger|35000|2;Chevrolet|Camaro|42000|3;Chevrolet|Cruze|6000|1;Lada|Granta|4500|0;Lada|Niva|5000|0;Skoda|Octavia|11000|1;Porsche|911|130000|3;Porsche|Cayenne|65000|3;Ferrari|488|280000|3;Lamborghini|Huracan|260000|3;Tesla|Model S|60000|3;Tesla|Model 3|32000|2;Land Rover|Defender|65000|3;Subaru|Impreza WRX|22000|2;Mitsubishi|Lancer Evo|40000|3;Volvo|XC90|32000|2;Renault|Logan|4500|0;Daewoo|Matiz|2500|0;Opel|Astra|5500|0`;
+const RAW=`Toyota|Corolla|9000|1;Toyota|Camry|14000|1;Toyota|RAV4|18000|1;Toyota|Land Cruiser 300|60000|3;Toyota|Supra|45000|3;Lexus|IS 250|16000|2;Lexus|RX 350|28000|2;Lexus|LX 600|110000|3;Lexus|LC 500|90000|3;BMW|3 Series|20000|2;BMW|X5|35000|2;BMW|M3|65000|3;BMW|M5|95000|3;BMW|i8|70000|3;Mercedes-Benz|C-Class|22000|2;Mercedes-Benz|E-Class|30000|2;Mercedes-Benz|G-Class|140000|3;Mercedes-Benz|AMG GT|130000|3;Audi|A4|18000|2;Audi|A6|26000|2;Audi|Q7|38000|2;Audi|RS6|110000|3;Audi|R8|150000|3;Volkswagen|Golf|10000|1;Volkswagen|Passat|12000|1;Volkswagen|Tiguan|17000|1;Honda|Civic|10000|1;Honda|Accord|13000|1;Honda|CR-V|16000|1;Nissan|Qashqai|11000|1;Nissan|Skyline GT-R|120000|3;Mazda|Mazda3|10000|1;Mazda|CX-5|17000|1;Mazda|MX-5|22000|2;Ford|Focus|7000|1;Ford|Mustang|40000|3;Hyundai|Solaris|6000|1;Hyundai|Tucson|16000|1;Kia|Rio|6500|1;Kia|Sportage|16000|1;Kia|Stinger|35000|2;Chevrolet|Camaro|42000|3;Chevrolet|Cruze|6000|1;Lada|Granta|4500|0;Lada|Niva|5000|0;Skoda|Octavia|11000|1;Subaru|Forester|15000|9;Mazda|6|13000|9;Porsche|911|130000|3;Porsche|Cayenne|65000|3;Ferrari|488|280000|3;Lamborghini|Huracan|260000|3;Tesla|Model S|60000|3;Tesla|Model 3|32000|2;Land Rover|Defender|65000|3;Subaru|Impreza WRX|22000|2;Mitsubishi|Lancer Evo|40000|3;Volvo|XC90|32000|2;Renault|Logan|4500|0;Daewoo|Matiz|2500|0;Opel|Astra|5500|0`;
 const MODELS=RAW.split(';').map(s=>{const[a,b,c,d]=s.split('|');return{brand:a,model:b,base:+c,tier:+d}});
 const COLORS=[['Белый','#f2f2f2',1],['Чёрный','#111',1.03],['Серебристый','#b8bec4',1],['Серый','#6c737a',1],['Красный','#c8202a',1.05],['Синий','#1f4c9a',1],['Зелёный','#2f6b45',.97],['Жёлтый','#e8c21a',1.02],['Оранжевый','#e8762a',1.04],['Коричневый','#6b4a32',.93],['Розовый','#e88aa8',.9]];
 const TIERS=[[0,'Хлам','#7a6a5c'],[3000,'Обычная','#6a7480'],[12000,'Хорошая','#2f8f5b'],[35000,'Редкая','#2a6ad8'],[90000,'Эпик','#8a3fd1'],[220000,'Легенда','#e8942a']];
@@ -60,15 +94,24 @@ let S;try{S=JSON.parse(localStorage.getItem('carspin'))}catch(e){}
 S=S||{bal:10000,garage:[],market:[],id:1,tab:'spin',last:null};
 const save=()=>{try{localStorage.setItem('carspin',JSON.stringify(S))}catch(e){}};
 
-const SPINS={cheap:{n:'Джайский спин',cost:1000,w:[.30,.55,.13,.02],d:'Дёшево: в основном простые машины'},mid:{n:'Медиум спин',cost:2500,w:[.05,.55,.30,.10],d:'Золотая середина'},vip:{n:'VIP казахский спин',cost:15000,w:[0,.10,.45,.45],d:'Почти всегда средние и топовые машины'}};
+const SPINS={cheap:{n:'Джайский спин',cost:6000,w:[.30,.55,.13,.02],d:'Дёшево: в основном простые машины'},shal:{n:'Шалский кейс',cost:4300,d:'Старые тачки для шала: Forester, Corolla, Mazda, RAV4 (до 2014), Нива. Все редкие, цена ×3'},mid:{n:'Медиум спин',cost:11500,w:[.05,.55,.30,.10],d:'Золотая середина'},vip:{n:'VIP казахский спин',cost:85000,w:[0,.04,.36,.60],d:'Почти всегда средние и топовые машины'}};
+const SHAL=['Subaru Forester','Toyota Corolla','Mazda Mazda3','Mazda 6','Toyota RAV4','Lada Niva'];
+function genShal(){
+  const nm=pick(SHAL),m=MODELS.find(x=>x.brand+' '+x.model===nm);
+  const year=Math.floor(rnd(1999,2014.99)),km=Math.floor(rnd(120000,380000)),col=pick(COLORS),cond=pick([['Битая',.55],['Среднее',.85],['Хорошее',1],['Отличное',1.12]]),age=2026-year;
+  let v=m.base*Math.max(.18,1-age*.045)*Math.max(.35,1-km/450000)*cond[1]*col[2]*3;
+  return{id:S.id++,brand:m.brand,model:m.model,year,km,used:true,color:col[0],hex:col[1],cond:cond[0],val:Math.max(2500,Math.round(v/50)*50),shal:true,lock:Math.floor(Math.random()*9999)};
+}
+const cr=c=>rar(c.shal?Math.max(c.val,35000):c.val);
 function gen(kind){
+  if(kind==='shal')return genShal();
   // выпадение: чаще дешёвые, топ редко
   const W=(SPINS[kind]||SPINS.mid).w;let r0=Math.random(),tier=0,acc=0;for(let i=0;i<4;i++){acc+=W[i];if(r0<acc){tier=i;break}tier=3}
   const pool=MODELS.filter(m=>m.tier===tier);const m=pick(pool);
-  const used=Math.random()<.8, year=used?Math.floor(rnd(1998,2024)):2025;
+  const vip=kind==='vip',used=Math.random()<(vip?.35:.8), year=used?Math.floor(vip?rnd(2013,2025):rnd(1998,2024)):2025;
   const km=used?Math.floor(Math.pow(Math.random(),.8)*(2026-year)*30000+2000):0;
   const col=pick(COLORS);
-  const cond=pick([['Битая',.55],['Среднее',.85],['Хорошее',1],['Отличное',1.12]]);
+  const cond=vip?pick([['Хорошее',1],['Отличное',1.12],['Отличное',1.12]]):pick([['Битая',.55],['Среднее',.85],['Хорошее',1],['Отличное',1.12]]);
   const age=2026-year;
   let v=m.base*(used?Math.max(.18,1-age*.045):1.25)*Math.max(.35,1-km/450000)*cond[1]*col[2];
   // классика: старые топ-машины ценятся
@@ -76,7 +119,7 @@ function gen(kind){
   v=Math.max(700,Math.round(v/50)*50);
   return{id:S.id++,brand:m.brand,model:m.model,year,km,used,color:col[0],hex:col[1],cond:cond[0],val:v,lock:Math.floor(Math.random()*9999)};
 }
-const OV={'Toyota Land Cruiser 300':'Toyota Land Cruiser (J300)','Mitsubishi Lancer Evo':'Mitsubishi Lancer Evolution','Mercedes-Benz AMG GT':'Mercedes-AMG GT','Lexus LX 600':'Lexus LX','Lamborghini Huracan':'Lamborghini Huracán','Subaru Impreza WRX':'Subaru WRX','Nissan Skyline GT-R':'Nissan Skyline GT-R'};
+const OV={'Mazda 6':'Mazda6','Toyota Land Cruiser 300':'Toyota Land Cruiser (J300)','Mitsubishi Lancer Evo':'Mitsubishi Lancer Evolution','Mercedes-Benz AMG GT':'Mercedes-AMG GT','Lexus LX 600':'Lexus LX','Lamborghini Huracan':'Lamborghini Huracán','Subaru Impreza WRX':'Subaru WRX','Nissan Skyline GT-R':'Nissan Skyline GT-R'};
 let PC={};try{PC=JSON.parse(localStorage.getItem('carphotos'))||{}}catch(e){}
 const inflight={};
 const big=u=>u.replace(/\/\d+px-/,'/640px-');
@@ -92,7 +135,7 @@ async function findPhoto(k){
   })();
 }
 function hydrate(){document.querySelectorAll('img[data-k]:not([data-d])').forEach(async im=>{im.dataset.d=1;const u=await findPhoto(im.dataset.k);if(u)im.src=u})}
-const PHOTOS={};/*PHOTOS*/
+const PHOTOS=window.PHOTOS||{};
 const slug=k=>k.replace(/[^A-Za-z0-9]+/g,'_');
 function imgErr(im){if(!im.dataset.w){im.dataset.w=1;findPhoto(im.dataset.k).then(u=>{im.src=u||im.dataset.fb})}else im.src=im.dataset.fb}
 function img(c){
@@ -100,37 +143,107 @@ function img(c){
   const k=c.brand+' '+c.model;
   return `<img src="${PHOTOS[k]||'photos/'+slug(k)+'.jpg'}" data-k="${k}" data-fb="${fb}" onerror="imgErr(this)" alt="${k}">`;
 }
-function card(c,act){
-  const r=rar(c.val);
-  return `<div class="car" style="border-color:${r[2]}"><div class="ph">${img(c)}<span class="tag" style="background:${r[2]}">${r[1]}</span></div><div class="in"><h3>${c.brand} ${c.model}</h3><div class="meta"><span>${c.year}</span><span>${c.used?c.km.toLocaleString('ru-RU')+' км':'новая, 0 км'}</span><span>${c.used?'б/у':'новая'}</span><span><i class="sw" style="background:${c.hex}"></i>${c.color}</span><span>${c.cond}</span></div><div class="row"><span class="price">${money(c.val)}</span>${act||''}</div></div></div>`;
+function card(c,act,hero,price){
+  const r=cr(c);
+  return `<div class="car ${hero?'hero reveal':''}" style="--c:${r[2]}"><div class="ph">${img(c)}<span class="tag">${r[1]}</span><div class="cap"><h3>${c.brand} ${c.model}</h3><div class="meta"><span>${c.year}</span><span>${c.used?c.km.toLocaleString('ru-RU')+' км':'0 км'}</span><span>${c.used?'б/у':'новая'}</span><span><i class="sw" style="background:${c.hex}"></i>${c.color}</span><span>${c.cond}</span></div></div></div><div class="row"><span class="price">${price||money(c.val)}</span>${act||''}</div></div>`;
 }
 function spin(kind){
-  const k=SPINS[kind];if(S.bal<k.cost)return;S.bal-=k.cost;hap('medium');
+  const k=SPINS[kind];if(S.bal<k.cost)return;S.bal-=k.cost;S.spins=(S.spins||0)+1;hap('medium');
   $('main').innerHTML='<div class="spinning">🎰</div>';render(true);
   setTimeout(()=>{const c=gen(kind);S.last=c;S.garage.unshift(c);hap('heavy');save();render()},900);
 }
-function sell(id){const i=S.garage.findIndex(c=>c.id===id);if(i<0)return;S.bal+=S.garage[i].val;S.garage.splice(i,1);if(S.last&&S.last.id===id)S.last=null;hap();save();render()}
-function sellCheap(){let t=0;S.garage=S.garage.filter(c=>{if(rar(c.val)[0]<12000){t+=c.val;return false}return true});S.bal+=t;save();render()}
+function sell(id){const i=S.garage.findIndex(c=>c.id===id);if(i<0)return;const c=S.garage[i];if(rar(c.val)[0]>=90000&&!confirm('Продать '+c.brand+' '+c.model+' за '+money(c.val)+'?'))return;S.bal+=c.val;S.garage.splice(i,1);if(S.last&&S.last.id===id)S.last=null;hap();save();render()}
+function sellCheap(){let t=0;S.garage=S.garage.filter(c=>{if(!c.shal&&rar(c.val)[0]<12000){t+=c.val;return false}return true});S.bal+=t;save();render()}
 function buy(id){const i=S.market.findIndex(c=>c.id===id),c=S.market[i];if(!c||S.bal<c.price)return;S.bal-=c.price;S.market.splice(i,1);delete c.price;S.garage.unshift(c);hap('medium');save();render()}
 function refill(){S.market=Array.from({length:5},()=>{const c=gen();c.price=Math.round(c.val*rnd(1.05,1.5)/50)*50;return c});save();render()}
+
+S.plates=S.plates||[];if(S.kzt==null)S.kzt=300000;
+const kzt=n=>Math.round(n).toLocaleString('ru-RU')+' ₸';
+const LET='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),SERIES=['BOQ','HUI','JOP','PDR','CYK'],RATE=500;
+const PS={cheap:{n:'Джай номер',s:'Джай',cost:60000,d:'Че в цоне дали',q:.5,base:[10000,35000],j:.0001},mid:{n:'Средние номера',s:'Средние',cost:180000,d:'Братишка в цоне договорился, жиес',q:1,base:[25000,70000],j:.0005},vip:{n:'VIP казах номера',s:'VIP казах',cost:1300000,d:'С егова в кредит взял',q:2.2,base:[100000,300000],j:.006}};
+const REG={'01':'Астана','02':'Алматы','03':'Акмолинская обл.','04':'Актюбинская обл.','05':'Алматинская обл.','06':'Атырауская обл.','07':'Зап.-Казахстанская обл.','08':'Жамбылская обл.','09':'Карагандинская обл.','10':'Костанайская обл.','11':'Кызылординская обл.','12':'Мангистауская обл.','13':'Туркестанская обл.','14':'Павлодарская обл.','15':'Сев.-Казахстанская обл.','16':'Вост.-Казахстанская обл.','17':'Шымкент','18':'обл. Абай','19':'обл. Жетісу','20':'обл. Ұлытау'};
+const PT=[[0,'Обычный','#6a7480'],[100000,'Хороший','#2f8f5b'],[300000,'Редкий','#2a6ad8'],[800000,'Эпик','#8a3fd1'],[2000000,'Легенда','#e8942a'],[25000000,'ДЖЕКПОТ','#ff3b5c']];
+const prar=v=>{let r=PT[0];for(const t of PT)if(v>=t[0])r=t;return r};
+function evalPlate(d,l,r){
+  const same=d[0]===d[1]&&d[1]===d[2],lsame=l[0]===l[1]&&l[1]===l[2],c=[];
+  if(d[0]===d[2]&&!same)c.push([2,'Зеркальные цифры ×2']);
+  if(same)c.push([5,'Одинаковые цифры ×5']);
+  if(lsame)c.push([5,'Одинаковые буквы ×5']);
+  if(same&&lsame)c.push([10,'Цифры и буквы ×10']);
+  if(d==='007')c.push([15,'Номер 007 ×15']);else if(/^00[1-9]$/.test(d))c.push([12,'Два нуля в начале ×12']);
+  let m=1,tags=[];
+  if(c.length){c.sort((a,b)=>b[0]-a[0]);m=c[0][0];tags.push(c[0][1])}
+  if(r==='01'){m*=1.4;tags.push('Регион 01 ×1.4')}
+  if(SERIES.includes(l)){m*=2.5;tags.push('Серия '+l+' ×2.5')}
+  return{m,tags};
+}
+function genPlate(kind){
+  const K=PS[kind]||PS.mid,q=K.q;
+  const rd=()=>String(Math.floor(Math.random()*1000)).padStart(3,'0'),rl=()=>pick(LET)+pick(LET)+pick(LET);
+  let d=rd(),l=rl(),r=pick(Object.keys(REG)),roll=Math.random(),t=0;const hit=p=>roll<(t+=p);
+  if(hit(K.j)){d='004';l='KOO';r='01'}
+  else if(hit(.08*q)){const a=pick('0123456789'),b=pick('0123456789');d=a+b+a}
+  else if(hit(.05*q)){const a=pick('123456789');d=a+a+a}
+  else if(hit(.05*q)){const a=pick(LET);l=a+a+a}
+  else if(hit(.015*q)){const a=pick('123456789'),b=pick(LET);d=a+a+a;l=b+b+b}
+  else if(hit(.03*q)){d='007'}
+  else if(hit(.06*q)){const a=pick('123456789');d='00'+a}
+  else if(hit(.05*q)){l=pick(SERIES)}
+  else if(hit(.08*q)){r='01'}
+  const jack=d==='004'&&l==='KOO'&&r==='01',e=evalPlate(d,l,r);
+  const val=jack?30000000:Math.round(rnd(K.base[0],K.base[1])*e.m/100)*100;
+  return{id:S.id++,d,l,r,val,tags:jack?['Серия 004 KOO 01']:e.tags,jack};
+}
+function plateHTML(p){return `<div class="plate"><div class="pl-kz"><i></i><b>KZ</b></div><div class="pl-num"><span>${p.d}</span><span>${p.l}</span></div><div class="pl-reg">${p.r}</div></div>`}
+function plCard(p,act,big){
+  const r=prar(p.jack?3e7:p.val);
+  return `<div class="plcard ${big?'reveal':''}" style="--c:${r[2]}">${plateHTML(p)}<div class="chips"><span style="background:${r[2]}">${r[1]}</span>${p.tags.map(x=>`<span>${x}</span>`).join('')}</div>${p.jack&&big?'<div class="jack">ДЖЕКПОТ! +20 000 000 ₸ на баланс</div>':''}<div class="row"><span><b class="price">${kzt(p.val)}</b><br><span class="rg">${REG[p.r]}</span></span>${act}</div></div>`;
+}
+function spinPlate(kind){
+  const K=PS[kind];if(S.kzt<K.cost)return;S.kzt-=K.cost;S.spins=(S.spins||0)+1;hap('medium');render(true);
+  let n=0;const iv=setInterval(()=>{
+    const f={d:String(Math.floor(Math.random()*1000)).padStart(3,'0'),l:pick(LET)+pick(LET)+pick(LET),r:pick(Object.keys(REG))};
+    $('main').innerHTML='<div class="plcard" style="--c:#252b37;padding-bottom:14px">'+plateHTML(f)+'</div>';
+    if(++n>=7){clearInterval(iv);const p=genPlate(kind);S.lastP=p;S.plates.unshift(p);if(p.jack)S.kzt+=20000000;hap('heavy');save();render()}
+  },110);
+}
+function sellPlate(id){const i=S.plates.findIndex(p=>p.id===id);if(i<0)return;const p=S.plates[i];if(p.val>=800000&&!confirm('Продать номер '+p.d+' '+p.l+' '+p.r+' за '+kzt(p.val)+'?'))return;S.kzt+=p.val;S.plates.splice(i,1);if(S.lastP&&S.lastP.id===id)S.lastP=null;hap();save();render()}
+function sellCheapPlates(){let t=0;S.plates=S.plates.filter(p=>{if(p.val<100000){t+=p.val;return false}return true});S.kzt+=t;save();render()}
+function exch(dir){if(dir==='in'&&S.bal>=1000){S.bal-=1000;S.kzt+=1000*RATE}else if(dir==='out'&&S.kzt>=1000*RATE){S.kzt-=1000*RATE;S.bal+=1000}else return;hap();save();render()}
 const $=id=>document.getElementById(id);
+function daily(){if(Date.now()-(S.daily||0)<864e5)return;S.bal+=5000;S.daily=Date.now();hap('heavy');save();render()}
+function resetAll(){if(confirm('Сбросить весь прогресс?')){S={bal:10000,kzt:300000,garage:[],market:[],plates:[],id:1,tab:'me',last:null};save();render()}}
+function show(id){S.last=S.garage.find(c=>c.id===id)||S.last;render()}
 function render(keep){
+  if(S.kzt<PS.cheap.cost&&!S.plates.length){S.kzt+=PS.cheap.cost;save()}
+  if(S.bal<SPINS.cheap.cost&&!S.garage.length){S.bal+=SPINS.cheap.cost;save()}
   $('bal').textContent=money(S.bal);
-  $('cnt').textContent='Машин: '+S.garage.length+' · '+money(S.garage.reduce((a,c)=>a+c.val,0));
+  $('cnt').innerHTML='<b style="color:#ffd166;font-size:18px;letter-spacing:0">'+kzt(S.kzt)+'</b><br>Машин: '+S.garage.length+' · Номеров: '+S.plates.length;
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===S.tab));
+  const bar=$('bar');bar.className=S.tab==='spin'?'on c4':S.tab==='plates'?'on':'';
+  bar.innerHTML=S.tab==='plates'?Object.entries(PS).map(([k,v])=>`<button class="sp ${k}" onclick="spinPlate('${k}')" ${S.kzt<v.cost?'disabled':''}>${v.s}<small>${kzt(v.cost)}</small></button>`).join(''):Object.entries(SPINS).map(([k,v])=>`<button class="sp ${k}" onclick="spin('${k}')" ${S.bal<v.cost?'disabled':''}>${({cheap:'Джайский',shal:'Шалский',mid:'Медиум',vip:'VIP'})[k]}<small>${money(v.cost)}</small></button>`).join('');
   if(keep)return;
   const m=$('main');
   if(S.tab==='spin'){
-    m.innerHTML=(S.last?'<div class="reveal">'+card(S.last,`<button class="btn alt sm" onclick="sell(${S.last.id})">Продать</button>`)+'</div>':'<p class="hint">Выбери спин — выпадет случайная машина: от Lada до Ferrari. Чем дороже спин, тем круче шансы. Цена зависит от марки, года, пробега, состояния и цвета.</p>')+
-    Object.entries(SPINS).map(([k,v])=>`<button class="btn ${k==='vip'?'':k==='mid'?'alt':'alt'}" style="margin-bottom:10px;${k==='vip'?'background:linear-gradient(90deg,#e8942a,#e8442a)':k==='cheap'?'opacity:.85':''}" onclick="spin('${k}')" ${S.bal<v.cost?'disabled':''}><span class="row"><span style="text-align:left">${v.n}<br><small style="font-weight:500;opacity:.8">${v.d}</small></span><span>${money(v.cost)}</span></span></button>`).join('')+
-    (S.bal<SPINS.cheap.cost?'<p class="hint">Не хватает денег. Продай машину из гаража.</p>':'');
+    const strip=S.garage.slice(0,6).map(c=>`<img src="${PHOTOS[c.brand+' '+c.model]||'photos/'+slug(c.brand+' '+c.model)+'.jpg'}" style="--c:${cr(c)[2]}" class="${S.last&&S.last.id===c.id?'cur':''}" onclick="show(${c.id})" data-k="${c.brand+' '+c.model}" data-fb="${img(c).match(/data-fb="([^"]+)"/)[1]}" onerror="imgErr(this)">`).join('');
+    m.innerHTML=(S.last?card(S.last,`<button class="btn sm" onclick="sell(${S.last.id})">Продать</button>`,true):'<div class="spinning" style="animation:none;font-size:15px;color:var(--mute);padding:20px;text-align:center">Выбери спин внизу — от Lada до Ferrari. Шалский кейс: старые тачки, все редкие, цена ×3</div>')+(strip?`<div class="strip">${strip}</div>`:'');
   }else if(S.tab==='garage'){
-    m.innerHTML=`<h2>Гараж</h2>`+(S.garage.length?`<button class="btn alt" style="margin-bottom:14px" onclick="sellCheap()">Продать всё дешевле $12 000</button>`+S.garage.map(c=>card(c,`<button class="btn sm" onclick="sell(${c.id})">Продать</button>`)).join(''):'<p class="hint">Гараж пуст. Сделай первый спин.</p>');
+    const L=[...S.garage].sort((a,b)=>b.val-a.val);
+    m.innerHTML=`<h2>Гараж</h2>`+(L.length?`<button class="btn alt" style="margin-bottom:12px" onclick="sellCheap()">Продать всё дешевле $12 000</button><div class="g">`+L.map(c=>card(c,`<button class="btn sm" onclick="sell(${c.id})">Продать</button>`)).join('')+'</div>':'<p class="hint">Гараж пуст. Сделай первый спин.</p>');
+  }else if(S.tab==='plates'){
+    const L=[...S.plates].sort((a,b)=>b.val-a.val);
+    const legend='<div class="car" style="padding:2px 12px;margin:12px 0">'+Object.values(PS).map(v=>`<div class="row" style="padding:9px 0"><span><b>${v.n}</b> · ${kzt(v.cost)}<br><span class="rg">${v.d}</span></span></div>`).join('')+'</div>';
+    m.innerHTML=(S.lastP?plCard(S.lastP,`<button class="btn sm" onclick="sellPlate(${S.lastP.id})">Продать</button>`,true):'')+legend+
+    (L.length?`<h2 style="margin-top:16px">Мои номера</h2><button class="btn alt" style="margin-bottom:12px" onclick="sellCheapPlates()">Продать все обычные (до 100 000 ₸)</button><div class="plg">`+L.map(p=>plCard(p,`<button class="btn sm" onclick="sellPlate(${p.id})">Продать</button>`)).join('')+'</div>':'');
+  }else if(S.tab==='me'){
+    const best=[...S.garage].sort((a,b)=>b.val-a.val)[0],left=864e5-(Date.now()-(S.daily||0)),ok=left<=0;
+    m.innerHTML=`<h2>Профиль</h2><button class="btn" onclick="daily()" ${ok?'':'disabled'}>${ok?'Забрать ежедневный бонус $5 000':'Бонус через '+Math.ceil(left/36e5)+' ч'}</button><div class="car" style="margin-top:14px"><div class="row"><span>Спинов сделано</span><b>${S.spins||0}</b></div><div class="row"><span>Машин в гараже</span><b>${S.garage.length}</b></div><div class="row"><span>Стоимость гаража</span><b>${money(S.garage.reduce((a,c)=>a+c.val,0))}</b></div></div>`+(best?'<h2 style="margin-top:16px">Лучшая машина</h2>'+card(best,'',true):'')+`<h2 style="margin-top:16px">Обмен валют · $1 = 500 ₸</h2><div class="g"><button class="btn alt" onclick="exch('in')">$1 000 → 500 000 ₸</button><button class="btn alt" onclick="exch('out')">500 000 ₸ → $1 000</button></div><button class="btn alt" style="margin-top:16px" onclick="resetAll()">Сбросить прогресс</button>`;
   }else{
     if(!S.market.length)return refill();
-    m.innerHTML=`<h2>Рынок</h2><p class="hint">Здесь можно купить конкретную машину — дороже её реальной цены, зато без случайности.</p>`+S.market.map(c=>card(c,`<button class="btn sm" onclick="buy(${c.id})" ${S.bal<c.price?'disabled':''}>Купить ${money(c.price)}</button>`).replace(money(c.val),'оценка '+money(c.val))).join('')+`<button class="btn alt" onclick="refill()">Обновить список</button>`;
+    m.innerHTML=`<h2>Рынок</h2><div class="g">`+S.market.map(c=>card(c,`<button class="btn sm" onclick="buy(${c.id})" ${S.bal<c.price?'disabled':''}>Купить</button>`,false,money(c.price))).join('')+`</div><button class="btn alt" style="margin-top:12px" onclick="refill()">Обновить список</button>`;
   }
 }
+let taps=0,tt;$('bal').parentElement.onclick=()=>{taps++;clearTimeout(tt);tt=setTimeout(()=>taps=0,1500);if(taps>=7){taps=0;S.bal+=1000000;S.kzt+=100000000;hap('heavy');save();render()}};
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{S.tab=b.dataset.t;save();render()});
 render();
 </script>
